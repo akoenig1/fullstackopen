@@ -6,7 +6,11 @@ const StatisticLine = (props) => {
   const unit = props.unit ? props.unit : ''
   
   return(
-    <p>{field} {value} {unit}</p>
+    <tr>
+      <td>{field} </td>
+      <td>{value} </td>
+      <td>{unit}</td>
+    </tr>
   )
 }
 
