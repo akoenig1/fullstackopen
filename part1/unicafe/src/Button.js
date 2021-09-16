@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Button = (props) => {
   const rating = props.rating;
@@ -9,4 +9,4 @@ const Button = (props) => {
   )
 }
 
-export default Button;
+export default Button
