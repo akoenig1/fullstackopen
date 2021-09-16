@@ -1,5 +1,5 @@
 import React from 'react'
-import Rating from './Rating'
+import StatisticLine from './StatisticLine'
 
 const Statistics = (props) => {
   const good = props.good
@@ -10,12 +10,12 @@ const Statistics = (props) => {
   const positive = props.positive
 
   const ratings = <>
-    <Rating field="Good" count={good} />
-    <Rating field="Neutral" count={neutral} />
-    <Rating field="Bad" count={bad} />
-    <Rating field="All" count={all} />
-    <Rating field="Average" count={all > 0 ? (score / all) : 0} />
-    <Rating field="Positive" count={all > 0 ? ((positive / all) * 100) : 0} unit="%" />
+    <StatisticLine field="Good" value={good} />
+    <StatisticLine field="Neutral" value={neutral} />
+    <StatisticLine field="Bad" value={bad} />
+    <StatisticLine field="All" value={all} />
+    <StatisticLine field="Average" value={all > 0 ? (score / all) : 0} />
+    <StatisticLine field="Positive" value={all > 0 ? ((positive / all) * 100) : 0} unit="%" />
   </>
   
   return (
