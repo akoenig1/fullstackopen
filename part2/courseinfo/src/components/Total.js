@@ -1,10 +1,10 @@
 import React from "react"
 
 const Total = (props) => {
-  let total = 0
-  props.parts.forEach(part => {
-    total += part.exercises;
-  })
+  const parts = props.parts
+  const total = parts.reduce((sum, {exercises}) => {
+    return sum + exercises
+  }, 0)
   
   return (
     <p><strong>Number of exercises {total}</strong></p>
