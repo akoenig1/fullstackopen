@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import './App.css'
+import Form from './components/Form'
+import Filter from './components/Filter'
+import Persons from './components/Persons'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
@@ -52,29 +55,20 @@ const App = () => {
     }
   }
 
-  let printArray = searchName === '' ? persons : searchResults
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        search by name: <input value={searchName} onChange={handleSearchChange} />
-      </div>
-      <form>
-        <h2>Add New</h2>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-          <br/>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit" onClick={addName} >add</button>
-        </div>
-      </form>
+      <Filter text={searchName} handleChange={handleSearchChange} />
+      <h2>Add New</h2>
+      <Form 
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
+        addName={addName}
+      />
       <h2>Numbers</h2>
-      {
-        printArray.map(person => <li key={person.name} >{person.name}: {person.number}</li>)
-      }
+      <Persons people={searchName === '' ? persons : searchResults} />
     </div>
   )
 }
