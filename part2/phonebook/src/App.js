@@ -6,10 +6,20 @@ const App = () => {
     { 
       name: 'Arto Hellas',
       number: '040-1234567'
-    }
+    },
+    { 
+      name: 'Alex Koenig',
+      number: '646-987-6543'
+    },
+    { 
+      name: 'Simu Liu',
+      number: '444-444-4444'
+    },
   ]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  const [ searchName, setSearchName ] = useState('')
+  const [ searchResults, setSearchResults ] = useState([])
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -17,6 +27,14 @@ const App = () => {
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
+  }
+
+  const handleSearchChange = (event) => {
+    setSearchName(event.target.value)
+    const results = persons.filter(person => 
+      person.name.toLowerCase().includes(event.target.value.toLowerCase())
+    )
+    setSearchResults(results)
   }
 
   const addName = (event) => {
@@ -34,10 +52,16 @@ const App = () => {
     }
   }
 
+  let printArray = searchName === '' ? persons : searchResults
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        search by name: <input value={searchName} onChange={handleSearchChange} />
+      </div>
       <form>
+        <h2>Add New</h2>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
           <br/>
@@ -49,7 +73,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {
-        persons.map(person => <li key={person.name} >{person.name}: {person.number}</li>)
+        printArray.map(person => <li key={person.name} >{person.name}: {person.number}</li>)
       }
     </div>
   )
