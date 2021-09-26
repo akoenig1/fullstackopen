@@ -3,6 +3,7 @@ import axios from 'axios'
 import Country from './components/Country'
 import './App.css'
 
+
 function App() {
   const [countries, setCountries] = useState([])
   const [searchText, setSearchText] = useState('')
@@ -10,7 +11,7 @@ function App() {
   
   const getCountriesHook = () => {
     axios
-      .get("http://api.countrylayer.com/v2/all?access_key=19b4a0a75f3a834268a1251243ce5621")
+      .get(`http://api.countrylayer.com/v2/all?access_key=${process.env.REACT_APP_COUNTRIES_API_KEY}`)
       .then(res => {
         setCountries(res.data)
       })
