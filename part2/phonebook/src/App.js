@@ -40,8 +40,26 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault()
-    if(persons.map(person => person.name).includes(newName)) {
-      alert(`${newName} is already added to phonebook`)
+    const foundPerson = persons.filter(person => person.name === newName)[0];
+    const id = foundPerson ? foundPerson.id : null
+    if(id) {
+      const confirmed = window.confirm(`${newName} is already in the phonebook. Replace their old number with this one?`)
+      if(confirmed) {
+        const updatedPersonInfo = {
+          name: newName,
+          number: newNumber
+        }
+        personService
+          .update(id, updatedPersonInfo)
+          .then(updatedPerson => {
+            setPersons(persons.map(person => person.id !== id ? person : updatedPerson))
+          })
+          .catch(err => {
+            alert(`person does not exist on server`)
+          })
+        setNewName('')
+        setNewNumber('')
+      }
     } else {
       const newPerson = {
         name: newName,
