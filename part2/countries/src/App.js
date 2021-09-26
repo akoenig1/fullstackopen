@@ -26,9 +26,13 @@ function App() {
     setSearchResults(results)
   }
 
+  const handleShowButtonClick = (country) => {
+    setSearchResults([country])
+  }
+
   const refineSearchMessage = <p>Too many matches, refine search</p>
   const matchingCountryList = searchResults.map(country => {
-    return <li key={country.alpha3Code}>{country.name}</li>
+    return <li key={country.alpha3Code}>{country.name} <button onClick={() => handleShowButtonClick(country)}>show</button></li>
   })
   let printedResult = refineSearchMessage
 
