@@ -57,6 +57,20 @@ const App = () => {
     }
   }
 
+  const removeName = (id, name) => {
+    const confirmed = window.confirm(`Delete ${name}`)
+    if(confirmed) {
+      personService
+        .remove(id)
+        .then(deletedPerson => {
+          setPersons(persons.filter(p => p.id !== id))
+        })
+        .catch(err => {
+          alert(`person does not exist on server`)
+        })
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -70,7 +84,7 @@ const App = () => {
         addName={addName}
       />
       <h2>Numbers</h2>
-      <Persons people={searchName === '' ? persons : searchResults} />
+      <Persons people={searchName === '' ? persons : searchResults} removeName={removeName} />
     </div>
   )
 }

@@ -1,10 +1,10 @@
 import React from 'react'
 
 const Person = (props) => {
-  const { person } = props
+  const { person, removeName } = props
 
   return(
-    <li>{person.name}: {person.number}</li>
+    <li>{person.name}: {person.number} <button onClick={() => removeName(person.id, person.name)}>Delete</button></li>
   )
 }
 
