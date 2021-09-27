@@ -5,8 +5,8 @@ const Notification = ({ message }) => {
   if(!message) return null
   
   return(
-    <div className="success">
-      {message}
+    <div className={message.type}>
+      {message.text}
     </div>
   )
 }

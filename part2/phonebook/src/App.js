@@ -12,7 +12,7 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ searchName, setSearchName ] = useState('')
   const [ searchResults, setSearchResults ] = useState([])
-  const [ message, setMessage ] = useState(null)
+  const [ message, setMessage ] = useState({})
 
   const getDataHook = () => {
     personService
@@ -55,15 +55,22 @@ const App = () => {
           .update(id, updatedPersonInfo)
           .then(updatedPerson => {
             setPersons(persons.map(person => person.id !== id ? person : updatedPerson))
-            setMessage(
-              `Updated ${updatedPerson.name}'s number in phonebook`
-            )
+            setMessage({
+              text: `Updated ${updatedPerson.name}'s number in phonebook`,
+              type: "success"
+            })
             setTimeout(() => {
               setMessage(null)
             }, 3000)
           })
           .catch(err => {
-            alert(`person does not exist on server`)
+            setMessage({
+              text: `${updatedPersonInfo.name} has already been removed from the server`,
+              type: "error"
+            })
+            setTimeout(() => {
+              setMessage(null)
+            }, 3000)
           })
         setNewName('')
         setNewNumber('')
@@ -79,9 +86,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
-          setMessage(
-            `Added ${returnedPerson.name} to phonebook`
-          )
+          setMessage({
+            text: `Added ${returnedPerson.name} to phonebook`,
+            type: "success"
+          })
           setTimeout(() => {
             setMessage(null)
           }, 3000)
@@ -96,9 +104,10 @@ const App = () => {
         .remove(id)
         .then(res => {
           setPersons(persons.filter(p => p.id !== id))
-          setMessage(
-            `Removed ${name} from phonebook`
-          )
+          setMessage({
+            text: `Removed ${name} from phonebook`,
+            type: "success"
+          })
           setTimeout(() => {
             setMessage(null)
           }, 3000)
