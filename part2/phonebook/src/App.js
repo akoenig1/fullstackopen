@@ -3,6 +3,7 @@ import './App.css'
 import Form from './components/Form'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 import personService from './services/persons'
 
 const App = () => {
@@ -11,6 +12,7 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ searchName, setSearchName ] = useState('')
   const [ searchResults, setSearchResults ] = useState([])
+  const [ message, setMessage ] = useState(null)
 
   const getDataHook = () => {
     personService
@@ -53,6 +55,12 @@ const App = () => {
           .update(id, updatedPersonInfo)
           .then(updatedPerson => {
             setPersons(persons.map(person => person.id !== id ? person : updatedPerson))
+            setMessage(
+              `Updated ${updatedPerson.name}'s number in phonebook`
+            )
+            setTimeout(() => {
+              setMessage(null)
+            }, 3000)
           })
           .catch(err => {
             alert(`person does not exist on server`)
@@ -71,6 +79,12 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setMessage(
+            `Added ${returnedPerson.name} to phonebook`
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 3000)
         })
     }
   }
@@ -80,8 +94,14 @@ const App = () => {
     if(confirmed) {
       personService
         .remove(id)
-        .then(deletedPerson => {
+        .then(res => {
           setPersons(persons.filter(p => p.id !== id))
+          setMessage(
+            `Removed ${name} from phonebook`
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 3000)
         })
         .catch(err => {
           alert(`person does not exist on server`)
@@ -92,6 +112,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter text={searchName} handleChange={handleSearchChange} />
       <h2>Add New</h2>
       <Form 

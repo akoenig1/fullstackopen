@@ -18,7 +18,7 @@ const update = (id, updatedPersonInfo) => {
 
 const remove = id => {
   const request = axios.delete(`${baseUrl}/${id}`)
-  return request.then(res => res.data)
+  return request.then(res => res)
 }
 
 const personService = { getAll, create, update, remove }
