@@ -10,7 +10,9 @@ const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  const [ newCountry, setNewCountry ] = useState('')
   const [ searchName, setSearchName ] = useState('')
+  const [ searchCountry, setSearchCountry ] = useState('')
   const [ searchResults, setSearchResults ] = useState([])
   const [ message, setMessage ] = useState({})
 
@@ -32,10 +34,22 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  const handleSearchChange = (event) => {
+  const handleCountryChange = (event) => {
+    setNewCountry(event.target.value)
+  }
+
+  const handleNameSearchChange = (event) => {
     setSearchName(event.target.value)
     const results = persons.filter(person => 
       person.name.toLowerCase().includes(event.target.value.toLowerCase())
+    )
+    setSearchResults(results)
+  }
+
+  const handleCountrySearchChange = (event) => {
+    setSearchCountry(event.target.value)
+    const results = persons.filter(person => 
+      person.country.includes(event.target.value.toUpperCase())
     )
     setSearchResults(results)
   }
@@ -49,7 +63,8 @@ const App = () => {
       if(confirmed) {
         const updatedPersonInfo = {
           name: newName,
-          number: newNumber
+          number: newNumber,
+          country: newCountry
         }
         personService
           .update(id, updatedPersonInfo)
@@ -74,11 +89,13 @@ const App = () => {
           })
         setNewName('')
         setNewNumber('')
+        setNewCountry('')
       }
     } else {
       const newPerson = {
         name: newName,
-        number: newNumber
+        number: newNumber,
+        country: newCountry
       }
       personService
         .create(newPerson)
@@ -86,6 +103,7 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setNewCountry('')
           setMessage({
             text: `Added ${returnedPerson.name} to phonebook`,
             type: "success"
@@ -122,17 +140,20 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Notification message={message} />
-      <Filter text={searchName} handleChange={handleSearchChange} />
+      <Filter searchCategory="name" searchText={searchName} handleChange={handleNameSearchChange} />
+      <Filter searchCategory="country" searchText={searchCountry} handleChange={handleCountrySearchChange} />
       <h2>Add New</h2>
       <Form 
         newName={newName}
         handleNameChange={handleNameChange}
         newNumber={newNumber}
         handleNumberChange={handleNumberChange}
+        newCountry={newCountry}
+        handleCountryChange={handleCountryChange}
         addName={addName}
       />
       <h2>Numbers</h2>
-      <Persons people={searchName === '' ? persons : searchResults} removeName={removeName} />
+      <Persons people={searchName === '' && searchCountry === '' ? persons : searchResults} removeName={removeName} />
     </div>
   )
 }

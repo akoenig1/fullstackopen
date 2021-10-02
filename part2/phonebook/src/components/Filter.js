@@ -1,11 +1,11 @@
 import React from 'react'
 
 const Filter = (props) => {
-  const { text, handleChange } = props
+  const { searchCategory, searchText, handleChange } = props
 
   return(
     <div>
-      search by name: <input value={text} onChange={handleChange} />
+      search by {searchCategory}: <input value={searchText} onChange={handleChange} />
     </div>
   )
 }
