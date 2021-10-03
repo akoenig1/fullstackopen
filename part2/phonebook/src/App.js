@@ -70,6 +70,9 @@ const App = () => {
           .update(id, updatedPersonInfo)
           .then(updatedPerson => {
             setPersons(persons.map(person => person.id !== id ? person : updatedPerson))
+            setNewName('')
+            setNewNumber('')
+            setNewCountry('')
             setMessage({
               text: `Updated ${updatedPerson.name}'s number in phonebook`,
               type: "success"
@@ -80,16 +83,13 @@ const App = () => {
           })
           .catch(err => {
             setMessage({
-              text: `${updatedPersonInfo.name} has already been removed from the server`,
+              text: err.response.data.err,
               type: "error"
             })
             setTimeout(() => {
               setMessage(null)
             }, 3000)
           })
-        setNewName('')
-        setNewNumber('')
-        setNewCountry('')
       }
     } else {
       const newPerson = {
@@ -107,6 +107,15 @@ const App = () => {
           setMessage({
             text: `Added ${returnedPerson.name} to phonebook`,
             type: "success"
+          })
+          setTimeout(() => {
+            setMessage(null)
+          }, 3000)
+        })
+        .catch(err => {
+          setMessage({
+            text: err.response.data.err,
+            type: "error"
           })
           setTimeout(() => {
             setMessage(null)
@@ -131,7 +140,13 @@ const App = () => {
           }, 3000)
         })
         .catch(err => {
-          alert(`person does not exist on server`)
+          setMessage({
+            text: `${name} does not exist on server`,
+            type: "error"
+          })
+          setTimeout(() => {
+            setMessage(null)
+          }, 3000)
         })
     }
   }
